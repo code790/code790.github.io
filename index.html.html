@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favour's Birthday Notepad</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+    .notepad-container {
+      width: 500px;
+      height: 400px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 80%;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 16px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .buttons button {
+      padding: 10px 20px;
+      font-size: 14px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .buttons button:hover {
+      background-color: #45a049;
+      display: flex;
+    }
+    
+  </style>
+</head>
+<body>
+    <h1>Favour's Birthday Notepad</h1><br>
+    <form>
+  <div class="notepad-container">
+    <textarea id="notepad" placeholder="Start typing here..."></textarea>
+    <div class="buttons">
+      <button id="downloadBtn">Download</button>
+      <button id="openBtn">Open</button>
+      <button type="reset">Clear</button>
+    </div>
+  </div></form>
+
+  <input type="file" id="fileInput" style="display: none;" accept=".txt" onchange="openFile(event)" />
+
+  <script>
+    // Download button functionality
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      const text = document.getElementById('notepad').value;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'note.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Open button functionality
+    document.getElementById('openBtn').addEventListener('click', function() {
+      document.getElementById('fileInput').click();
+    });
+
+    // Function to read file and open in the notepad
+    function openFile(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('notepad').value = e.target.result;
+        };
+        reader.readAsText(file);
+      }
+    }
+  </script>
+</body>
+</html>
